@@ -21,3 +21,9 @@
   height: 300px;
   margin: 10px;
 }
+
+.filter-panel {
+  background-color: cornsilk;
+  text-align: center;
+  align-items: center;
+}

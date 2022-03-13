@@ -8,7 +8,7 @@ import "../css/style.css";
 function Home(props) {
   return (
     <React.Fragment>
-      <Header />
+      <Header user={props.user} />
       <SearchBarWithPhoto />
       <LatestMovie />
       <Footer />

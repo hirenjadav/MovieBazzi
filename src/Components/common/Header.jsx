@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import "../css/style.css";
 import "../css/header.css";
 
 function Header(props) {
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    setUser(props.user);
+  }, [props.user]);
+
   return (
     <div className="header">
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -48,9 +54,24 @@ function Header(props) {
             </ul>
           </div>
 
-          <Link to="/login">
-            <button class="btn btn-warning ">Log In</button>
-          </Link>
+          {!user && (
+            <Link to="/login">
+              <button class="btn btn-warning ">Log In</button>
+            </Link>
+          )}
+          {user && (
+            <React.Fragment>
+              <Link to="/profile">
+                {/* <button class="btn btn-warning ">{user.name}</button> */}
+                <div className="header-profile-name">
+                  <p>Hi {user.name}</p>
+                </div>
+              </Link>
+              <Link to="/logout">
+                <button class="btn btn-warning">Log out</button>
+              </Link>
+            </React.Fragment>
+          )}
         </div>
       </nav>
     </div>

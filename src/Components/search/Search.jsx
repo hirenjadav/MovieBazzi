@@ -4,11 +4,10 @@ import { useParams } from "react-router-dom";
 import Footer from "../common/Footer";
 import Header from "../common/Header";
 import SearchBarWithPhoto from "../common/searchbarwithphoto";
-import SearchedMovie from "./SearchedMovie";
-// import SearchedPerson from "./SearchedPerson";
-import SearchedTV from "./SearchedTV";
+
 import "bulma/css/bulma.css";
 import "../css/search.css";
+import SearchFilter from "./SearchFilter";
 
 function Search(props) {
   const { query } = useParams();
@@ -36,9 +35,7 @@ function Search(props) {
       <SearchBarWithPhoto />
       <div className="container">
         <div className="searched-data columns is-multiline p-0 pb-3 last">
-          {/* <SearchedPerson searchData={searchData} /> */}
-          <SearchedMovie searchData={searchData} />
-          <SearchedTV searchData={searchData} />
+          <SearchFilter searchData={searchData} />
         </div>
       </div>
       <Footer />
