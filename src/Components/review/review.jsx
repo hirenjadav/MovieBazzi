@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Joi from "joi";
 import Header from "../common/Header";
 import Footer from "../common/Footer";
-import {
-  Box,
-  TextareaAutosize,
-  // TextField,
-  Rating,
-  Grid,
-  Button,
-} from "@mui/material";
+import { Box, TextareaAutosize, Rating, Grid, Button } from "@mui/material";
 import "bootstrap/dist/css/bootstrap.css";
 import "../css/review.css";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import movieDummy from "../singleMovie/tempMovieDetail.json";
 import tvDummy from "../singleTVShow/tempTVDetail.json";
+import { giveReview } from "../../services/reviewsServices";
 
 function Review(props) {
   const { id, type } = useParams();
@@ -36,19 +31,63 @@ function Review(props) {
     setDetails({ ...t });
   };
 
+  const imgURL = "https://image.tmdb.org/t/p/w500" + details.poster_path;
+
   useEffect(() => {
     getTVDetails();
   });
 
-  const handleSubmit = async () => {};
+  const navigate = useNavigate();
 
-  const imgURL = "https://image.tmdb.org/t/p/w500" + details.poster_path;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const schema = Joi.object().keys({
+      rating: Joi.number().required().min(0).max(10),
+      review: Joi.string().required().trim(),
+    });
+
+    const { error } = schema.validate(reviewData);
+
+    if (error) {
+      alert(error.details[0].message);
+    } else {
+      try {
+        const res = await giveReview(
+          reviewData.rating,
+          reviewData.review,
+          mediaType,
+          id
+        );
+        console.log("RESPONSE RECEIVED: ", res.data);
+        if (res.status === 200) {
+          alert("Review Submited Successfully");
+          navigate("/" + type + "/" + id);
+        }
+      } catch (err) {
+        if (err.response && err.response.status === 400) {
+          alert(err.response.data);
+        }
+        console.log("AXIOS ERROR: ", err.response.data);
+      }
+    }
+  };
+
+  const [reviewData, setReviewData] = useState({ rating: "", review: "" });
+
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    setReviewData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   return (
     <React.Fragment>
       <Header />
       <div className="container review-rating-container">
-        <form method="POST" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <Grid
             container
             rowSpacing={5}
@@ -91,20 +130,19 @@ function Review(props) {
 
                       <Grid item xs={12}>
                         <Rating
-                          name="customized-10"
-                          defaultValue={2}
+                          name="rating"
+                          defaultValue={0}
+                          onChange={handleInput}
+                          value={reviewData.rating}
                           max={10}
                           size="large"
                         />
                       </Grid>
                       <Grid item xs={12}>
-                        {/* <TextField
-                      inputProps={{ style: { color: "white" } }}
-                      fullWidth
-                      label="Review"
-                      id="fullWidth"
-                    /> */}
                         <TextareaAutosize
+                          name="review"
+                          value={reviewData.review}
+                          onChange={handleInput}
                           aria-label="empty textarea"
                           placeholder="Enter Review"
                           style={{

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Movies from "./Components/movies/movies";
 import Home from "./Components/home/home";
 import Login from "./Components/login/login";
@@ -12,6 +12,7 @@ import SingleTVShow from "./Components/singleTVShow/singleTVShow";
 import Search from "./Components/search/Search";
 import Logout from "./Components/login/logout";
 import auth from "./services/authServices";
+import ProtectedRoute from "./Components/ProtectedRoute";
 
 function App() {
   const [user, setUser] = useState();
@@ -34,7 +35,11 @@ function App() {
         <Route exact path="/movies/:id" element={<SingleMovie />}></Route>
         <Route exact path="/tvshows" element={<TVShows />}></Route>
         <Route exact path="/tvshows/:id" element={<SingleTVShow />}></Route>
-        <Route exact path="/:type/:id/review" element={<Review />}></Route>
+        <Route
+          exact
+          path="/:type/:id/review"
+          element={<ProtectedRoute component={Review} />}
+        ></Route>
       </Routes>
     </Router>
   );
