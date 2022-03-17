@@ -8,7 +8,7 @@ function SingleTVShow(props) {
   const { id } = useParams();
   return (
     <React.Fragment>
-      <Header />
+      <Header user={props.user} />
       <SingleTVBody tvID={id} />
       <Footer />
     </React.Fragment>

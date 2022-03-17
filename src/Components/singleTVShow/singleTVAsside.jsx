@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { addToWishlist } from "../../services/userServices";
 import "../css/singleMovieBody.css";
 
 function SingleTVAsside(props) {
@@ -16,6 +17,21 @@ function SingleTVAsside(props) {
 
   const imgURL = "https://image.tmdb.org/t/p/w500" + poster_path;
   const reviewRedirectLink = "/tvshows/" + id + "/review";
+
+  const handleAddToWatchlist = async () => {
+    try {
+      const res = await addToWishlist("tv", id);
+      console.log("RESPONSE RECEIVED: ", res.data);
+      if (res.status === 200) {
+        alert("Added to Watch List");
+      }
+    } catch (err) {
+      if (err.response && err.response.status === 400) {
+        alert(err.response.data);
+      }
+      console.log("AXIOS ERROR: ", err.response.data);
+    }
+  };
 
   return (
     <div className="body-detail3 asside">
@@ -100,6 +116,16 @@ function SingleTVAsside(props) {
                 Review
               </button>
             </Link>
+          </span>
+
+          <span className="title single-movie-general">
+            <button
+              onClick={handleAddToWatchlist}
+              type="button"
+              class="btn btn-warning"
+            >
+              Add to Watchlist
+            </button>
           </span>
         </div>
       </div>

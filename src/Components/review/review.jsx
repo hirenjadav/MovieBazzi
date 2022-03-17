@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Joi from "joi";
 import Header from "../common/Header";
 import Footer from "../common/Footer";
@@ -10,6 +9,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import movieDummy from "../singleMovie/tempMovieDetail.json";
 import tvDummy from "../singleTVShow/tempTVDetail.json";
 import { giveReview } from "../../services/reviewsServices";
+import movieServices from "../../services/moviesServices";
 
 function Review(props) {
   const { id, type } = useParams();
@@ -20,13 +20,7 @@ function Review(props) {
   );
 
   const getTVDetails = async () => {
-    const { data } = await axios.get(
-      "https://api.themoviedb.org/3/" +
-        mediaType +
-        "/" +
-        id +
-        "?api_key=0914f7c5f3e5e546aaa005b128fda302"
-    );
+    const { data } = await movieServices.getMoviesDetails(mediaType, id);
     const t = { ...data };
     setDetails({ ...t });
   };
@@ -85,7 +79,7 @@ function Review(props) {
 
   return (
     <React.Fragment>
-      <Header />
+      <Header user={props.user} />
       <div className="container review-rating-container">
         <form onSubmit={handleSubmit}>
           <Grid

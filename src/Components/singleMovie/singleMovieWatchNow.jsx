@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import movieServices from "../../services/moviesServices";
 
 function SingleMovieWatchNow(props) {
   const [streamList, setStreamList] = useState([]);
   const [streamLink, setStreamLink] = useState("");
 
   const getStreamList = async () => {
-    const { data } = await axios.get(
-      "https://api.themoviedb.org/3/movie/" +
-        props.movieID +
-        "/watch/providers?api_key=0914f7c5f3e5e546aaa005b128fda302"
+    const { data } = await movieServices.getWatchProviderDetails(
+      "movie",
+      props.movieID
     );
     const { results } = data;
-    const list = [...results.IN.flatrate];
-    const link = results.IN.link;
+    const list = results.IN ? [...results.IN.flatrate] : [];
+    const link = results.IN ? results.IN.link : "";
     setStreamLink(link);
     setStreamList([...list]);
   };
@@ -27,8 +26,8 @@ function SingleMovieWatchNow(props) {
       {streamList.map((s, i) => {
         const imgURL = "http://image.tmdb.org/t/p/w92" + s.logo_path;
         return (
-          <a href={streamLink} target="_blank" rel="noreferrer">
-            <img key={i} src={imgURL} alt={s.provider_name} />
+          <a key={i} href={streamLink} target="_blank" rel="noreferrer">
+            <img src={imgURL} alt={s.provider_name} />
           </a>
         );
       })}

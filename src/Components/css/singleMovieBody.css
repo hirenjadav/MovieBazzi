@@ -246,9 +246,9 @@
   padding: 2rem 0;
 }
 
-.recom-slider .recomendations-img {
+.recom-slider .recomendations-slider-img {
   width: 100%;
-  border-radius: 25px;
+  height: 100%;
 }
 
 .recomendation-title {

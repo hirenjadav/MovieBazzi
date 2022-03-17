@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Joi from "joi";
 import "../css/login.css";
 import auth from "../../services/authServices";
 
 function SignUp(props) {
-  let navigate = useNavigate();
-
   const [registerData, setRegisterData] = useState({
     name: "",
     email: "",
@@ -50,7 +47,7 @@ function SignUp(props) {
         console.log("RESPONSE RECEIVED: ", res.data);
         if (res.status === 200) {
           auth.setToken(res.data);
-          navigate("/");
+          window.location = props.prevURL ? props.prevURL : "/";
         }
       } catch (err) {
         if (err.response && err.response.status === 400) {

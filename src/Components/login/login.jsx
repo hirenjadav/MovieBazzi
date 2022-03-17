@@ -17,8 +17,8 @@ function Login(props) {
             Sign Up
           </label>
           <div class="login-form">
-            <SignIn />
-            <SignUp />
+            <SignIn prevURL={props.prevURL} />
+            <SignUp prevURL={props.prevURL} />
           </div>
         </div>
       </div>

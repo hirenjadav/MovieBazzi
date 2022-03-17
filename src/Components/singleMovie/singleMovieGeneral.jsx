@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "../css/singleMovieBody.css";
 import SingleMovieRecommendation from "./singleMovieRecommendation";
 import SingleMovieWatchNow from "./singleMovieWatchNow";
 import SingleMovieTrailer from "./singleMovieTrailer";
+import movieServices from "../../services/moviesServices";
 
 function SingleMovieGeneral(props) {
   const [cast, setCast] = useState([]);
 
   const getCastDetails = async (id) => {
-    const castURL =
-      "https://api.themoviedb.org/3/movie/" +
-      id +
-      "/credits?api_key=0914f7c5f3e5e546aaa005b128fda302&language=en-US";
-    const { data } = await axios.get(castURL);
+    const { data } = await movieServices.getCastDetails("movie", id);
     const { cast } = data;
     setCast([...cast]);
   };

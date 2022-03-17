@@ -8,7 +8,7 @@ import MoviesColllection from "../movies/moviesCollection";
 function TVShows(props) {
   return (
     <React.Fragment>
-      <Header />
+      <Header user={props.user} />
       <SearchBarWithPhoto />
       <div class="container movie-collection-container">
         <div class="columns is-multiline p-0 pb-3 pt-5 last">

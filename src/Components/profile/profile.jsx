@@ -5,7 +5,7 @@ import Footer from "../common/Footer";
 function Profile(props) {
   return (
     <React.Fragment>
-      <Header />
+      <Header user={props.user} />
 
       <Footer />
     </React.Fragment>

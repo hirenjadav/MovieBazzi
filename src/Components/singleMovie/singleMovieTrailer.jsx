@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import axios from "axios";
 import "../css/singleMovieBody.css";
+import movieServices from "../../services/moviesServices";
 
 function SingleMovieTrailer(props) {
   const [trailers, setTrailers] = useState([]);
 
   const getTrailers = async () => {
-    const { data } = await axios.get(
-      "https://api.themoviedb.org/3/movie/" +
-        props.movieID +
-        "/videos?api_key=0914f7c5f3e5e546aaa005b128fda302&language=en-US"
+    const { data } = await movieServices.getTrailerDetails(
+      "movie",
+      props.movieID
     );
     const { results } = data;
     const t = [...results];
@@ -26,7 +25,7 @@ function SingleMovieTrailer(props) {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
       items: 3,
-      slidesToSlide: 4, // optional, default to 1.
+      slidesToSlide: 1, // optional, default to 1.
     },
     tablet: {
       breakpoint: { max: 1024, min: 768 },
@@ -44,7 +43,7 @@ function SingleMovieTrailer(props) {
     <div>
       <Carousel
         responsive={responsive}
-        autoPlay={true}
+        autoPlay={false}
         swipeable={true}
         draggable={true}
         showDots={true}
@@ -52,16 +51,17 @@ function SingleMovieTrailer(props) {
         partialVisible={false}
       >
         {trailers.slice(0, 5).map((movie, i) => {
-          const ytLink = "https://www.youtube.com/embed?v=" + movie.key;
+          const ytLink = "https://www.youtube.com/embed/" + movie.key;
           return (
             <div className="recom-slider" key={i}>
-              {i < 2 && (
+              {i < 5 && (
                 <iframe
                   className="recomendations-slider-img"
-                  width="250"
-                  height="200"
                   src={ytLink}
                   title={movie.name}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen="allowfullscreen"
                 ></iframe>
               )}
             </div>

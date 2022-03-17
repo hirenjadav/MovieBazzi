@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "bulma/css/bulma.css";
 import SingleMovieCardHome from "./singleMovieCardHome";
 import "../css/latestmovie.css";
+import movieServices from "../../services/moviesServices";
 
 function TrendingTVShows(props) {
   const [trendingTVShows, setTrendingTVShows] = useState([]);
 
   const getTrendingTVShows = async () => {
-    const { data } = await axios.get(
-      "https://api.themoviedb.org/3/trending/tv/week?api_key=0914f7c5f3e5e546aaa005b128fda302"
-    );
+    const { data } = await movieServices.getTrendingTVShows();
     const { results } = data;
     const tvMovies = [...results];
     setTrendingTVShows(tvMovies);

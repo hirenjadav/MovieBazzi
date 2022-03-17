@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import "../css/singleMovieBody.css";
 import { Link } from "react-router-dom";
+import movieServices from "../../services/moviesServices";
 
 function SingleTVRecommendation(props) {
   const [recommTV, setRecommTV] = useState([]);
 
   const getRecommendedTV = async () => {
-    const { data } = await axios.get(
-      "https://api.themoviedb.org/3/tv/" +
-        props.tvID +
-        "/recommendations?api_key=0914f7c5f3e5e546aaa005b128fda302&language=en-US&page=1"
+    const { data } = await movieServices.getRecommendationDetails(
+      "tv",
+      props.tvID
     );
     const { results } = data;
     const temp = [...results];

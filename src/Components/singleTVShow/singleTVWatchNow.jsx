@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import movieServices from "../../services/moviesServices";
 
 function SingleTVWatchNow(props) {
   const [streamList, setStreamList] = useState([]);
   const [streamLink, setStreamLink] = useState("");
 
   const getStreamList = async () => {
-    const { data } = await axios.get(
-      "https://api.themoviedb.org/3/tv/" +
-        props.tvID +
-        "/watch/providers?api_key=0914f7c5f3e5e546aaa005b128fda302"
+    const { data } = await movieServices.getWatchProviderDetails(
+      "tv",
+      props.tvID
     );
     const { results } = data;
-    const list = [...results.IN.flatrate];
-    const link = results.IN.link;
+    const list = results.IN ? [...results.IN.flatrate] : [];
+    const link = results.IN ? results.IN.link : "";
     setStreamLink(link);
     setStreamList([...list]);
   };

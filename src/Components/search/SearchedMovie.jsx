@@ -10,8 +10,12 @@ function SearchedMovie(props) {
         </p>
         <hr className="search-hr" />
       </div>
-      {props.searchData.map((movie) => {
-        if (movie.media_type === "movie" && movie.poster_path !== null) {
+
+      {props.searchData
+        .filter((movie) => {
+          return movie.media_type === "movie" && movie.poster_path !== null;
+        })
+        .map((movie) => {
           return (
             <SingleMovieCardHome
               key={movie.id}
@@ -20,10 +24,22 @@ function SearchedMovie(props) {
               type="movies"
             />
           );
-        }
-      })}
+        })}
     </React.Fragment>
   );
 }
 
 export default SearchedMovie;
+
+// {/* {props.searchData.map((movie) => {
+//         if (movie.media_type === "movie" && movie.poster_path !== null) {
+//           return (
+//             <SingleMovieCardHome
+//               key={movie.id}
+//               id={movie.id}
+//               imgURL={movie.poster_path}
+//               type="movies"
+//             />
+//           );
+//         }
+//       })} */}

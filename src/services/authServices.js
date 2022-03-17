@@ -1,6 +1,9 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 
+// const apiEndpoint = "http://localhost:8000/api/users/";
+const apiEndpoint = "https://powerful-chamber-67957.herokuapp.com/api/users/";
+
 const axiosConfig = {
   headers: {
     "Content-Type": "application/json",
@@ -9,19 +12,11 @@ const axiosConfig = {
 };
 
 export async function signin(loginData) {
-  return await axios.post(
-    "http://localhost:8000/api/users/login",
-    loginData,
-    axiosConfig
-  );
+  return await axios.post(apiEndpoint + "login", loginData, axiosConfig);
 }
 
 export async function signout(registerData) {
-  return await axios.post(
-    "http://localhost:8000/api/users/register",
-    registerData,
-    axiosConfig
-  );
+  return await axios.post(apiEndpoint + "register", registerData, axiosConfig);
 }
 
 export function logout() {

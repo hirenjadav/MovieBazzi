@@ -1,8 +1,8 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Carousel from "react-multi-carousel";
+// import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { Link } from "react-router-dom";
+import movieServices from "../../services/moviesServices";
+// import { Link } from "react-router-dom";
 import "../css/moviesCollection.css";
 import SingleMovieCardHome from "../home/singleMovieCardHome";
 
@@ -10,14 +10,10 @@ function MoviesColllection(props) {
   const [movies, setMovies] = useState([]);
 
   const getMoviesList = async (isMounted) => {
-    const reqURL =
-      "https://api.themoviedb.org/3/" +
-      props.mediaType +
-      "/" +
-      props.type +
-      "?api_key=0914f7c5f3e5e546aaa005b128fda302&language=en-US&page=1";
-
-    const { data } = await axios.get(reqURL);
+    const { data } = await movieServices.getCollections(
+      props.mediaType,
+      props.type
+    );
     const { results } = data;
     const temp = [...results];
     if (isMounted) {

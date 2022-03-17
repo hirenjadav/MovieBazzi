@@ -10,7 +10,7 @@ function SearchedTV(props) {
         </p>
         <hr className="search-hr" />
       </div>
-      {props.searchData.map((movie) => {
+      {/* {props.searchData.map((movie) => {
         if (movie.media_type === "tv" && movie.poster_path !== null) {
           return (
             <SingleMovieCardHome
@@ -21,7 +21,21 @@ function SearchedTV(props) {
             />
           );
         }
-      })}
+      })} */}
+      {props.searchData
+        .filter((movie) => {
+          return movie.media_type === "tv" && movie.poster_path !== null;
+        })
+        .map((movie) => {
+          return (
+            <SingleMovieCardHome
+              key={movie.id}
+              id={movie.id}
+              imgURL={movie.poster_path}
+              type="tvshows"
+            />
+          );
+        })}
     </React.Fragment>
   );
 }

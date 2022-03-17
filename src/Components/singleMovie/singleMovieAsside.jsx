@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { addToWishlist } from "../../services/userServices";
 import "../css/singleMovieBody.css";
 
 function SingleMoivieAsside(props) {
@@ -8,12 +9,19 @@ function SingleMoivieAsside(props) {
   const imgURL = "https://image.tmdb.org/t/p/w500" + poster_path;
   const reviewRedirectLink = "/movies/" + id + "/review";
 
-  const handleAddToWatchlist = () => {
-    alert("Added to Watch List");
-  };
-
-  const handleLike = () => {
-    alert("Liked");
+  const handleAddToWatchlist = async () => {
+    try {
+      const res = await addToWishlist("movie", id);
+      console.log("RESPONSE RECEIVED: ", res.data);
+      if (res.status === 200) {
+        alert("Added to Watch List");
+      }
+    } catch (err) {
+      if (err.response && err.response.status === 400) {
+        alert(err.response.data);
+      }
+      console.log("AXIOS ERROR: ", err.response.data);
+    }
   };
 
   return (
@@ -66,11 +74,6 @@ function SingleMoivieAsside(props) {
               class="btn btn-warning"
             >
               Add to Watchlist
-            </button>
-          </span>
-          <span className="title single-movie-general">
-            <button onClick={handleLike} type="button" class="btn btn-warning">
-              Like
             </button>
           </span>
         </div>

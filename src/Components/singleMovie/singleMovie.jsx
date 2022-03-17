@@ -8,7 +8,7 @@ function SingleMovie(props) {
   const { id } = useParams();
   return (
     <React.Fragment>
-      <Header />
+      <Header user={props.user} />
       <SingleMovieBody movieID={id} />
       <Footer />
     </React.Fragment>

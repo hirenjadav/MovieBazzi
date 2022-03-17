@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "bootstrap/dist/css/bootstrap.css";
 import "../css/singleMovieBody.css";
 import dummyData from "./tempTVDetail.json";
 import SingleTVCover from "./singleTVCover";
 import SingleTVAsside from "./singleTVAsside";
 import SingleTVGeneral from "./singleTVGeneral";
+import movieServices from "../../services/moviesServices";
 
 function SingleTVBody(props) {
   const [tvDetails, setTVDetails] = useState(dummyData);
 
   const getTVDetails = async () => {
-    const { data } = await axios.get(
-      "https://api.themoviedb.org/3/tv/" +
-        props.tvID +
-        "?api_key=0914f7c5f3e5e546aaa005b128fda302"
-    );
+    const { data } = await movieServices.getMoviesDetails("tv", props.tvID);
     const t = { ...data };
     setTVDetails({ ...t });
   };

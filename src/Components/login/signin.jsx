@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import Joi from "joi";
 import "../css/login.css";
-import { useNavigate } from "react-router-dom";
 import auth from "../../services/authServices";
 
 function SignIn(props) {
-  let navigate = useNavigate();
-
   const [loginData, setLoginData] = useState({ email: "", password: "" });
 
   const handleLoginInput = (e) => {
@@ -37,7 +34,8 @@ function SignIn(props) {
         console.log("RESPONSE RECEIVED: ", res.data);
         if (res.status === 200) {
           localStorage.setItem("token", res.data);
-          navigate("/");
+          // window.location = "/";
+          window.location = props.prevURL ? props.prevURL : "/";
         }
       } catch (err) {
         if (err.response && err.response.status === 400) {

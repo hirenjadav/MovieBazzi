@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 import Movies from "./Components/movies/movies";
 import Home from "./Components/home/home";
 import Login from "./Components/login/login";
@@ -15,11 +16,20 @@ import auth from "./services/authServices";
 import ProtectedRoute from "./Components/ProtectedRoute";
 
 function App() {
+  // let user;
+
+  // useEffect(() => {
+  //   user = auth.getCurrentUser();
+  // });
+
   const [user, setUser] = useState();
 
   useEffect(() => {
-    const currentUser = auth.getCurrentUser();
-    setUser(currentUser);
+    try {
+      const jwt = auth.getToken();
+      const currentUser = jwtDecode(jwt);
+      setUser(currentUser);
+    } catch (error) {}
   }, [user]);
 
   return (
@@ -28,13 +38,25 @@ function App() {
         <Route exact path="/" element={<Home user={user} />}></Route>
         <Route exact path="/login" element={<Login />}></Route>
         <Route exact path="/logout" element={<Logout />}></Route>
-        <Route exact path="/profile" element={<Profile />}></Route>
-        <Route exact path="/celebrities" element={<Celebrities />}></Route>
+        <Route exact path="/profile" element={<Profile user={user} />}></Route>
+        <Route
+          exact
+          path="/celebrities"
+          element={<Celebrities user={user} />}
+        ></Route>
         <Route exact path="/search/:query" element={<Search />}></Route>
-        <Route exact path="/movies" element={<Movies />}></Route>
-        <Route exact path="/movies/:id" element={<SingleMovie />}></Route>
-        <Route exact path="/tvshows" element={<TVShows />}></Route>
-        <Route exact path="/tvshows/:id" element={<SingleTVShow />}></Route>
+        <Route exact path="/movies" element={<Movies user={user} />}></Route>
+        <Route
+          exact
+          path="/movies/:id"
+          element={<SingleMovie user={user} />}
+        ></Route>
+        <Route exact path="/tvshows" element={<TVShows user={user} />}></Route>
+        <Route
+          exact
+          path="/tvshows/:id"
+          element={<SingleTVShow user={user} />}
+        ></Route>
         <Route
           exact
           path="/:type/:id/review"
