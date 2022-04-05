@@ -1,0 +1,191 @@
+import React, { useEffect, useState } from "react";
+import { Rating } from "@mui/material";
+import {
+  getSingleMovieReviews,
+  giveDislike,
+  giveLike,
+  giveReport,
+} from "../../services/reviewsServices";
+import { MenuItem, FormControl, Select } from "@mui/material";
+
+function SingleTVReviews(props) {
+  const [reviews, setReviews] = useState([]);
+  const [reportReason, setReportReason] = useState("");
+  const [isReportClick, setIsReportClick] = useState(false);
+
+  const handleReportReasonSelect = (event) => {
+    setReportReason(event.target.value);
+  };
+
+  const getReviews = async () => {
+    try {
+      const res = await getSingleMovieReviews("tv", props.tvID + "");
+      if (res.status === 200) {
+        // console.log(res.data);
+        const temp = [...res.data];
+        setReviews([...temp]);
+      }
+    } catch (err) {
+      if (err.response && err.response.status === 400) {
+        alert(err.response.data);
+      }
+      console.log("AXIOS ERROR: ", err.response && err.response.data);
+    }
+  };
+
+  useEffect(() => {
+    getReviews();
+  });
+
+  const handleReportButtonClick = () => {
+    setIsReportClick(true);
+  };
+
+  const handleReviewReport = async (event) => {
+    try {
+      const res = await giveReport(event.target.value, reportReason);
+      if (res.status === 200) {
+        alert("Successfully Reported");
+        setIsReportClick(false);
+      }
+    } catch (err) {
+      if (err.response && err.response.status === 400) {
+        alert(err.response.data);
+        setIsReportClick(false);
+      }
+      console.log("AXIOS ERROR: ", err.response && err.response.data);
+    }
+  };
+
+  const handleReviewLike = async (event) => {
+    try {
+      const res = await giveLike(event.target.value);
+      if (res.status === 200) {
+        alert("Liked");
+      }
+    } catch (err) {
+      if (err.response && err.response.status === 400) {
+        alert(err.response.data);
+      }
+      console.log("AXIOS ERROR: ", err.response && err.response.data);
+    }
+  };
+
+  const handleReviewDislike = async (event) => {
+    try {
+      const res = await giveDislike(event.target.value);
+      if (res.status === 200) {
+        alert("Disliked");
+      }
+    } catch (err) {
+      if (err.response && err.response.status === 400) {
+        alert(err.response.data);
+      }
+      console.log("AXIOS ERROR: ", err.response && err.response.data);
+    }
+  };
+
+  if (reviews.length === 0) {
+    return (
+      <div className="single-movie-reviews">
+        <h3 className="single-movie-h3">Reviews</h3>
+        <hr className="hr-review-title"></hr>
+        <h4 className="single-movie-h3">0 Reviews</h4>
+        <br></br>
+        <br></br>
+      </div>
+    );
+  }
+
+  return (
+    <div className="single-movie-reviews">
+      <h3 className="single-movie-h3">Reviews</h3>
+      <hr className="hr-review-title"></hr>
+      {reviews.map((m, i) => {
+        return (
+          <div key={i} className="row">
+            <div className="col-1 d-inline text-center">
+              <img
+                className="user-review-photo d-inline "
+                src="https://cdn-icons-png.flaticon.com/512/1177/1177568.png"
+                alt="user"
+              />
+            </div>
+            <div className="col-8 my-4">
+              <h4 className="watchlist-h4">{m.userName}</h4>
+              <Rating value={m.rating} max={10} readOnly />
+              <br></br>
+              <p className="review-p">{m.review}</p>
+            </div>
+            <div className="col-3 mt-4">
+              <div className="row">
+                <div className="col-12">
+                  <button
+                    className="btn btn-primary mr-2"
+                    onClick={handleReviewLike}
+                    value={m._id}
+                  >
+                    Likes <span className="badge">{m.likeCount.length}</span>
+                  </button>
+                  <button
+                    className="btn btn-primary ml-1"
+                    onClick={handleReviewDislike}
+                    value={m._id}
+                  >
+                    Dislikes{" "}
+                    <span className="badge">{m.dislikeCount.length}</span>
+                  </button>
+                </div>
+                <div className="col-12 my-2">
+                  {isReportClick && (
+                    <React.Fragment>
+                      <FormControl fullWidth>
+                        <Select
+                          value={reportReason}
+                          onChange={handleReportReasonSelect}
+                        >
+                          <MenuItem value="Sexual content">
+                            Sexual content
+                          </MenuItem>
+                          <MenuItem value="Violent or repulsive content">
+                            Violent or repulsive content
+                          </MenuItem>
+                          <MenuItem value="Hateful or abusive content">
+                            Hateful or abusive content
+                          </MenuItem>
+                          <MenuItem value="Harmful or dangerous acts">
+                            Harmful or dangerous acts
+                          </MenuItem>
+                          <MenuItem value="Spam or misleading">
+                            Spam or misleading
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
+                      <button
+                        className="btn btn-warning mr-4"
+                        onClick={handleReviewReport}
+                        value={m._id}
+                      >
+                        Report
+                      </button>
+                    </React.Fragment>
+                  )}
+                  {!isReportClick && (
+                    <button
+                      className="btn btn-warning mr-4"
+                      onClick={handleReportButtonClick}
+                    >
+                      Report
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+export default SingleTVReviews;

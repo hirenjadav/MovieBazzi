@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import "../css/singleMovieBody.css";
@@ -6,6 +6,7 @@ import movieServices from "../../services/moviesServices";
 
 function SingleMovieTrailer(props) {
   const [trailers, setTrailers] = useState([]);
+  // const componentMounted = useRef(true);
 
   const getTrailers = async () => {
     const { data } = await movieServices.getTrailerDetails(
@@ -20,6 +21,15 @@ function SingleMovieTrailer(props) {
   useEffect(() => {
     getTrailers();
   });
+
+  // useEffect(() => {
+  //   if (componentMounted.current) {
+  //     getTrailers();
+  //   }
+  //   return () => {
+  //     componentMounted.current = false;
+  //   };
+  // });
 
   const responsive = {
     desktop: {
@@ -50,8 +60,8 @@ function SingleMovieTrailer(props) {
         infinite={true}
         partialVisible={false}
       >
-        {trailers.slice(0, 5).map((movie, i) => {
-          const ytLink = "https://www.youtube.com/embed/" + movie.key;
+        {trailers.slice(0, 3).map((movie, i) => {
+          const ytLink = "https://www.youtube-nocookie.com/embed/" + movie.key;
           return (
             <div className="recom-slider" key={i}>
               {i < 5 && (

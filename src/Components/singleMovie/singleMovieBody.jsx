@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import SingleMovieCover from "./singleMovieCover";
 import SingleMoivieAsside from "./singleMovieAsside";
 import SingleMovieGeneral from "./singleMovieGeneral";
-import "bootstrap/dist/css/bootstrap.css";
-import "../css/singleMovieBody.css";
 import movieServices from "../../services/moviesServices";
 import dummyData from "./tempMovieDetail.json";
+import SingleMovieReviews from "./singleMovieReviews";
+import "bootstrap/dist/css/bootstrap.css";
+import "../css/singleMovieBody.css";
 
 function SingleMovieBody(props) {
   const [movieDetails, setMovieDetails] = useState(dummyData);
@@ -32,6 +33,7 @@ function SingleMovieBody(props) {
             <SingleMoivieAsside details={movieDetails} />
             <SingleMovieGeneral details={movieDetails} />
           </div>
+          <SingleMovieReviews movieID={movieDetails.id} />
         </div>
       </div>
     </React.Fragment>

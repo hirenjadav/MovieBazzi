@@ -14,14 +14,10 @@ import Search from "./Components/search/Search";
 import Logout from "./Components/login/logout";
 import auth from "./services/authServices";
 import ProtectedRoute from "./Components/ProtectedRoute";
+import Header from "./Components/common/Header";
+import Footer from "./Components/common/Footer";
 
 function App() {
-  // let user;
-
-  // useEffect(() => {
-  //   user = auth.getCurrentUser();
-  // });
-
   const [user, setUser] = useState();
 
   useEffect(() => {
@@ -30,15 +26,17 @@ function App() {
       const currentUser = jwtDecode(jwt);
       setUser(currentUser);
     } catch (error) {}
-  }, [user]);
+  }, []);
 
   return (
     <Router>
+      <Header user={user} />
       <Routes>
         <Route exact path="/" element={<Home user={user} />}></Route>
         <Route exact path="/login" element={<Login />}></Route>
         <Route exact path="/logout" element={<Logout />}></Route>
-        <Route exact path="/profile" element={<Profile user={user} />}></Route>
+        {/* <Route exact path="/profile" element={<Profile user={user} />}></Route> */}
+        <Route exact path="/profile" element={<Profile />}></Route>
         <Route
           exact
           path="/celebrities"
@@ -63,6 +61,7 @@ function App() {
           element={<ProtectedRoute component={Review} />}
         ></Route>
       </Routes>
+      <Footer />
     </Router>
   );
 }

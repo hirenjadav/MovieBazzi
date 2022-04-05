@@ -19,11 +19,14 @@ const axiosConfig = {
 // -----------------------------------------------------------------------------------
 
 export async function getAllReviewAsAdmin() {
-  return await axios.get(apiEndpoint + "admin", {}, axiosConfig);
+  return await axios.get(apiEndpoint + "admin", axiosConfig);
 }
 
-export async function deleteReviewAsAdmin() {
-  return await axios.delete(apiEndpoint + "admin", {}, axiosConfig);
+export async function deleteReviewAsAdmin(reviewID) {
+  return await axios.delete(apiEndpoint + "admin", {
+    data: { reviewID: reviewID },
+    ...axiosConfig,
+  });
 }
 
 // -----------------------------------------------------------------------------------
@@ -31,23 +34,31 @@ export async function deleteReviewAsAdmin() {
 // -----------------------------------------------------------------------------------
 
 export async function getAllReviewAsUser() {
-  return await axios.get(apiEndpoint + "me/getall", {}, axiosConfig);
+  return await axios.get(apiEndpoint + "me/getall", axiosConfig);
 }
 
 export async function deleteReviewAsUser(reviewID) {
-  return await axios.delete(
-    apiEndpoint + "me/delete",
-    { reviewID: reviewID },
-    axiosConfig
-  );
+  return await axios.delete(apiEndpoint + "me/delete", {
+    data: { reviewID: reviewID },
+    ...axiosConfig,
+  });
 }
 
-export async function giveReview(rating, review, mediaType, mediaID) {
+export async function giveReview(
+  rating,
+  review,
+  mediaType,
+  mediaID,
+  mediaName,
+  mediaPoster
+) {
   const reviewData = {
     rating: rating,
     review: review,
     mediaType: mediaType,
     mediaID: mediaID,
+    mediaName: mediaName,
+    mediaPoster: mediaPoster,
   };
 
   return await axios.post(apiEndpoint + "me/give", reviewData, axiosConfig);
@@ -77,11 +88,24 @@ export async function giveReport(reviewID, reason) {
   );
 }
 
+// -----------------------------------------------------------------------------------
+//GENERAL
+// -----------------------------------------------------------------------------------
+
+export async function getSingleMovieReviews(mediaType, mediaID) {
+  return await axios.post(
+    apiEndpoint + "general",
+    { mediaType: mediaType, mediaID: mediaID },
+    axiosConfig
+  );
+}
+
 const review = {
   getAllReviewAsAdmin,
   deleteReviewAsAdmin,
   getAllReviewAsUser,
   deleteReviewAsUser,
+  getSingleMovieReviews,
   giveReview,
   giveLike,
   giveDislike,

@@ -1,28 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "bulma/css/bulma.css";
 import SingleMovieCardHome from "./singleMovieCardHome";
 import "../css/latestmovie.css";
 import movieServices from "../../services/moviesServices";
 
 function TrendingMovies(props) {
+  const componentMounted = useRef(true);
   const [trendingMovies, setTrendingMovies] = useState([]);
 
   const getTrendingMovies = async () => {
     const { data } = await movieServices.getTrendingMovies();
     const { results } = data;
     const trMovies = [...results];
-
     setTrendingMovies(trMovies);
   };
 
   useEffect(() => {
-    getTrendingMovies();
+    if (componentMounted.current) {
+      getTrendingMovies();
+    }
+    return () => {
+      componentMounted.current = false;
+    };
   });
 
   return (
     <React.Fragment>
-      <div class="column is-full movie-category">
-        <p class="has-text-weight-bold has-text-white is-size-3 is-family-sans-serif">
+      <div className="column is-full movie-category">
+        <p className="has-text-weight-bold has-text-white is-size-3 is-family-sans-serif">
           Trending Movies
         </p>
         <hr className="latest-movie-hr" />

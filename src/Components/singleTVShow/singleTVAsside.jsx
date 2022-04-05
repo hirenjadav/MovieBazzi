@@ -1,14 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import auth from "../../services/authServices";
 import { addToWishlist } from "../../services/userServices";
 import "../css/singleMovieBody.css";
 
 function SingleTVAsside(props) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const {
     poster_path,
     number_of_episodes,
     number_of_seasons,
-    title,
+    name,
     id,
     first_air_date,
     last_air_date,
@@ -19,17 +23,23 @@ function SingleTVAsside(props) {
   const reviewRedirectLink = "/tvshows/" + id + "/review";
 
   const handleAddToWatchlist = async () => {
-    try {
-      const res = await addToWishlist("tv", id);
-      console.log("RESPONSE RECEIVED: ", res.data);
-      if (res.status === 200) {
-        alert("Added to Watch List");
+    const token = auth.getToken();
+
+    if (token === null) {
+      navigate("/login", { state: { from: location.pathname } });
+    } else {
+      try {
+        const res = await addToWishlist("tv", id + "", name, poster_path);
+        console.log("RESPONSE RECEIVED: ", res.data);
+        if (res.status === 200) {
+          alert("Added to Watch List");
+        }
+      } catch (err) {
+        if (err.response && err.response.status === 400) {
+          alert(err.response.data);
+        }
+        console.log("AXIOS ERROR: ", err.response.data);
       }
-    } catch (err) {
-      if (err.response && err.response.status === 400) {
-        alert(err.response.data);
-      }
-      console.log("AXIOS ERROR: ", err.response.data);
     }
   };
 
@@ -40,7 +50,7 @@ function SingleTVAsside(props) {
           <img
             data-v-49816e12=""
             src={imgURL}
-            alt={title}
+            alt={name}
             className="poster-image"
           />
         </figure>
@@ -111,8 +121,13 @@ function SingleTVAsside(props) {
           </div>
 
           <span className="title single-movie-general">
-            <Link to={reviewRedirectLink}>
-              <button type="button" class="btn btn-warning">
+            <Link
+              to={{
+                pathname: reviewRedirectLink,
+                state: { from: location.pathname },
+              }}
+            >
+              <button type="button" className="btn btn-warning">
                 Review
               </button>
             </Link>
@@ -122,7 +137,7 @@ function SingleTVAsside(props) {
             <button
               onClick={handleAddToWatchlist}
               type="button"
-              class="btn btn-warning"
+              className="btn btn-warning"
             >
               Add to Watchlist
             </button>

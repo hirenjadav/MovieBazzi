@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Joi from "joi";
-import Header from "../common/Header";
-import Footer from "../common/Footer";
 import { Box, TextareaAutosize, Rating, Grid, Button } from "@mui/material";
 import "bootstrap/dist/css/bootstrap.css";
 import "../css/review.css";
@@ -51,7 +49,9 @@ function Review(props) {
           reviewData.rating,
           reviewData.review,
           mediaType,
-          id
+          id,
+          type === "tvshows" ? details.name : details.title,
+          details.poster_path
         );
         console.log("RESPONSE RECEIVED: ", res.data);
         if (res.status === 200) {
@@ -79,7 +79,6 @@ function Review(props) {
 
   return (
     <React.Fragment>
-      <Header user={props.user} />
       <div className="container review-rating-container">
         <form onSubmit={handleSubmit}>
           <Grid
@@ -164,7 +163,6 @@ function Review(props) {
           </Grid>
         </form>
       </div>
-      <Footer />
     </React.Fragment>
   );
 }

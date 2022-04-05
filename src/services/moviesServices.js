@@ -31,6 +31,7 @@ export async function getCollections(mediaType, type) {
     "?api_key=" +
     api_key +
     "&language=en-US&page=1";
+  // "&language=en-US&page=1&region=IN";
 
   return await axios.get(reqURL);
 }

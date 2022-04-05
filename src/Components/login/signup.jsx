@@ -60,34 +60,34 @@ function SignUp(props) {
 
   return (
     <React.Fragment>
-      <div class="sign-up-htm">
+      <div className="sign-up-htm">
         <form onSubmit={onRegisterSubmit}>
-          <div class="group">
-            <label for="user" class="label">
+          <div className="group">
+            <label for="user" className="label">
               Name
             </label>
             <input
               name="name"
               type="text"
-              class="input"
+              className="input"
               value={registerData.name}
               onChange={handleRegisterInput}
             />
           </div>
-          <div class="group">
-            <label for="pass" class="label">
+          <div className="group">
+            <label for="pass" className="label">
               Email Address
             </label>
             <input
               type="text"
               name="email"
-              class="input"
+              className="input"
               value={registerData.email}
               onChange={handleRegisterInput}
             />
           </div>
-          <div class="group">
-            <label for="pass" class="label">
+          <div className="group">
+            <label for="pass" className="label">
               Password
             </label>
             <input
@@ -95,12 +95,12 @@ function SignUp(props) {
               value={registerData.password}
               onChange={handleRegisterInput}
               type="password"
-              class="input"
+              className="input"
               data-type="password"
             />
           </div>
-          <div class="group">
-            <label for="pass" class="label">
+          <div className="group">
+            <label for="pass" className="label">
               Repeat Password
             </label>
             <input
@@ -108,16 +108,16 @@ function SignUp(props) {
               value={registerData.confirmPassword}
               onChange={handleRegisterInput}
               type="password"
-              class="input"
+              className="input"
               data-type="password"
             />
           </div>
-          <div class="group">
-            <input type="submit" class="button" value="Sign Up" />
+          <div className="group">
+            <input type="submit" className="button" value="Sign Up" />
           </div>
         </form>
-        {/* <div class="hr"></div>
-              <div class="foot-lnk">
+        {/* <div className="hr"></div>
+              <div className="foot-lnk">
                 <label for="tab-1">Log in With Google</label>
               </div> */}
       </div>

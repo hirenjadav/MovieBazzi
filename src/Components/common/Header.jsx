@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
-import "../css/style.css";
 import "../css/header.css";
 
-function Header(props) {
-  const [user, setUser] = useState();
-
-  useEffect(() => {
-    setUser(props.user);
-  }, [props.user]);
+function Header({ user }) {
+  const location = useLocation();
 
   return (
     <div className="header">
@@ -46,29 +41,34 @@ function Header(props) {
                   TV Shows
                 </NavLink>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <NavLink className="nav-link" to="/books">
                   Books
                 </NavLink>
-              </li>
+              </li> */}
             </ul>
           </div>
-
-          {!user && (
-            <Link to="/login">
-              <button class="btn btn-warning ">Log In</button>
+          {!user && location.pathname !== "/login" && (
+            <Link
+              to={{
+                pathname: "/login",
+                state: { from: location.pathname },
+              }}
+            >
+              <button className="btn btn-warning ">Log In</button>
             </Link>
           )}
           {user && (
             <React.Fragment>
-              <Link to="/profile">
-                {/* <button class="btn btn-warning ">{user.name}</button> */}
-                <div className="header-profile-name">
-                  <p>Hi {user.name}</p>
-                </div>
-              </Link>
+              {location.pathname !== "/profile" && (
+                <Link to="/profile">
+                  <div className="header-profile-name">
+                    <p>Hi {user.name}</p>
+                  </div>
+                </Link>
+              )}
               <Link to="/logout">
-                <button class="btn btn-warning">Log out</button>
+                <button className="btn btn-warning">Log out</button>
               </Link>
             </React.Fragment>
           )}
@@ -79,3 +79,14 @@ function Header(props) {
 }
 
 export default Header;
+
+{
+  /* <div
+                  className="header-profile-name"
+                  onClick={() => {
+                    window.location = "/profile";
+                  }}
+                >
+                  <p>Hi {user.name}</p>
+                </div> */
+}

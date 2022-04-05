@@ -4,8 +4,8 @@ import SingleMovieCardHome from "../home/singleMovieCardHome";
 function SearchedMovie(props) {
   return (
     <React.Fragment>
-      <div class="column is-full search-collection">
-        <p class="has-text-weight-bold has-text-white is-size-3 is-family-sans-serif search-collection-title">
+      <div className="column is-full search-collection">
+        <p className="has-text-weight-bold has-text-white is-size-3 is-family-sans-serif search-collection-title">
           Movies
         </p>
         <hr className="search-hr" />
@@ -30,16 +30,3 @@ function SearchedMovie(props) {
 }
 
 export default SearchedMovie;
-
-// {/* {props.searchData.map((movie) => {
-//         if (movie.media_type === "movie" && movie.poster_path !== null) {
-//           return (
-//             <SingleMovieCardHome
-//               key={movie.id}
-//               id={movie.id}
-//               imgURL={movie.poster_path}
-//               type="movies"
-//             />
-//           );
-//         }
-//       })} */}

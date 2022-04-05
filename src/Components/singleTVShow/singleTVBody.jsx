@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import "bootstrap/dist/css/bootstrap.css";
-import "../css/singleMovieBody.css";
 import dummyData from "./tempTVDetail.json";
 import SingleTVCover from "./singleTVCover";
 import SingleTVAsside from "./singleTVAsside";
 import SingleTVGeneral from "./singleTVGeneral";
 import movieServices from "../../services/moviesServices";
+import "bootstrap/dist/css/bootstrap.css";
+import "../css/singleMovieBody.css";
+import SingleTVReviews from "./singleTVReviews";
 
 function SingleTVBody(props) {
   const [tvDetails, setTVDetails] = useState(dummyData);
@@ -29,6 +30,7 @@ function SingleTVBody(props) {
             <SingleTVAsside details={tvDetails} />
             <SingleTVGeneral details={tvDetails} />
           </div>
+          <SingleTVReviews tvID={tvDetails.id} />
         </div>
       </div>
     </React.Fragment>

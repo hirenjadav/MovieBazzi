@@ -34,36 +34,35 @@ function SignIn(props) {
         console.log("RESPONSE RECEIVED: ", res.data);
         if (res.status === 200) {
           localStorage.setItem("token", res.data);
-          // window.location = "/";
           window.location = props.prevURL ? props.prevURL : "/";
         }
       } catch (err) {
         if (err.response && err.response.status === 400) {
           alert(err.response.data);
         }
-        console.log("AXIOS ERROR: ", err.response.data);
+        console.log("AXIOS ERROR: ", err.response && err.response.data);
       }
     }
   };
 
   return (
     <React.Fragment>
-      <div class="sign-in-htm">
+      <div className="sign-in-htm">
         <form onSubmit={onLoginSubmit}>
-          <div class="group">
-            <label for="user" class="label">
+          <div className="group">
+            <label for="user" className="label">
               Email
             </label>
             <input
               value={loginData.email}
               type="text"
-              class="input"
+              className="input"
               name="email"
               onChange={handleLoginInput}
             />
           </div>
-          <div class="group">
-            <label for="pass" class="label">
+          <div className="group">
+            <label for="pass" className="label">
               Password
             </label>
             <input
@@ -71,16 +70,16 @@ function SignIn(props) {
               name="password"
               onChange={handleLoginInput}
               value={loginData.password}
-              class="input"
+              className="input"
               data-type="password"
             />
           </div>
-          <div class="group">
-            <input type="submit" class="button" value="Sign In" />
+          <div className="group">
+            <input type="submit" className="button" value="Sign In" />
           </div>
         </form>
-        {/* <div class="hr"></div>
-              <div class="foot-lnk">
+        {/* <div className="hr"></div>
+              <div className="foot-lnk">
                 <a href="#forgot">Log in with Google</a>
               </div> */}
       </div>

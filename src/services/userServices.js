@@ -19,15 +19,14 @@ const axiosConfig = {
 // -----------------------------------------------------------------------------------
 
 export async function getAllUserAsAdmin() {
-  return await axios.get(apiEndpoint + "admin", {}, axiosConfig);
+  return await axios.get(apiEndpoint + "admin", axiosConfig);
 }
 
 export async function deleteUserAsAdmin(userID) {
-  return await axios.delete(
-    apiEndpoint + "admin",
-    { userID: userID },
-    axiosConfig
-  );
+  return await axios.delete(apiEndpoint + "admin", {
+    data: { userID: userID },
+    ...axiosConfig,
+  });
 }
 
 // -----------------------------------------------------------------------------------
@@ -35,23 +34,44 @@ export async function deleteUserAsAdmin(userID) {
 // -----------------------------------------------------------------------------------
 
 export async function getUserDetails() {
-  return await axios.get(apiEndpoint + "me", {}, axiosConfig);
+  return await axios.get(apiEndpoint + "me", axiosConfig);
 }
 
-export async function addToWishlist(mediaType, mediaID) {
+export async function deleteUserAsUser() {
+  return await axios.delete(apiEndpoint + "me", axiosConfig);
+}
+
+export async function changePassword(data) {
   return await axios.put(
-    apiEndpoint + "me/wishlist",
-    { mediaType: mediaType, mediaID: mediaID },
+    apiEndpoint + "me/changepassword",
+    { old: data.old, new: data.new },
+    axiosConfig
+  );
+}
+
+export async function addToWishlist(
+  mediaType,
+  mediaID,
+  mediaName,
+  mediaPoster
+) {
+  return await axios.put(
+    apiEndpoint + "me/watchlist",
+    {
+      mediaType: mediaType,
+      mediaID: mediaID,
+      mediaName: mediaName,
+      mediaPoster: mediaPoster,
+    },
     axiosConfig
   );
 }
 
 export async function deleteFromWishlist(id) {
-  return await axios.delete(
-    apiEndpoint + "me/wishlist",
-    { id: id },
-    axiosConfig
-  );
+  return await axios.delete(apiEndpoint + "me/watchlist", {
+    data: { id: id },
+    ...axiosConfig,
+  });
 }
 
 // -----------------------------------------------------------------------------------
@@ -60,6 +80,8 @@ const user = {
   getAllUserAsAdmin,
   deleteUserAsAdmin,
   getUserDetails,
+  deleteUserAsUser,
+  changePassword,
   addToWishlist,
   deleteFromWishlist,
 };

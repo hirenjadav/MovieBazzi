@@ -11,10 +11,15 @@ function SingleTVWatchNow(props) {
       props.tvID
     );
     const { results } = data;
-    const list = results.IN ? [...results.IN.flatrate] : [];
-    const link = results.IN ? results.IN.link : "";
-    setStreamLink(link);
-    setStreamList([...list]);
+
+    if (results.IN && results.IN.flatrate) {
+      const list = [...results.IN.flatrate];
+      setStreamList([...list]);
+    }
+    if (results.IN && results.IN.link) {
+      const link = results.IN.link;
+      setStreamLink(link);
+    }
   };
 
   useEffect(() => {

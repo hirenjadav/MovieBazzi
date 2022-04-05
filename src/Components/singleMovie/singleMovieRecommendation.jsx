@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import "../css/singleMovieBody.css";
@@ -7,6 +7,7 @@ import movieServices from "../../services/moviesServices";
 
 function SingleMovieRecommendation(props) {
   const [recommMovies, setRecommMovies] = useState([]);
+  // const componentMounted = useRef(true);
 
   const getRecommendedMovies = async () => {
     const { data } = await movieServices.getRecommendationDetails(
@@ -17,6 +18,15 @@ function SingleMovieRecommendation(props) {
     const rMovies = [...results];
     setRecommMovies(rMovies);
   };
+
+  // useEffect(() => {
+  //   if (componentMounted.current) {
+  //     getRecommendedMovies();
+  //   }
+  //   return () => {
+  //     componentMounted.current = false;
+  //   };
+  // });
 
   useEffect(() => {
     getRecommendedMovies();
@@ -51,7 +61,7 @@ function SingleMovieRecommendation(props) {
         infinite={true}
         partialVisible={false}
       >
-        {recommMovies.slice(0, 10).map((movie) => {
+        {recommMovies.slice(0, 5).map((movie) => {
           const imgURL = "https://image.tmdb.org/t/p/w300" + movie.poster_path;
           const redirectSingleMovieURL = "/movies/" + movie.id;
           return (

@@ -23,7 +23,17 @@
 }
 
 .filter-panel {
-  background-color: cornsilk;
+  margin-top: 52px;
   text-align: center;
   align-items: center;
+}
+
+.filter-panel-switch {
+  margin: 10px;
+}
+
+.filter-panel-select {
+  margin: 10px;
+  display: inline-block !important;
+  min-width: 250px;
 }

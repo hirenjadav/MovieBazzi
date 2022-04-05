@@ -48,16 +48,16 @@ function Footer(props) {
             </div>
             <div className="col item social">
               <a href="/">
-                <i className="fa fa-facebook" ariaHidden="true"></i>
+                <i className="fa fa-facebook" aria-hidden="true"></i>
               </a>
               <a href="/">
-                <i className="fa fa-twitter" ariaHidden="true"></i>
+                <i className="fa fa-twitter" aria-hidden="true"></i>
               </a>
               <a href="/">
-                <i className="fa fa-instagram" ariaHidden="true"></i>
+                <i className="fa fa-instagram" aria-hidden="true"></i>
               </a>
               <a href="/">
-                <i className="fa fa-snapchat" ariaHidden="true"></i>
+                <i className="fa fa-snapchat" aria-hidden="true"></i>
               </a>
             </div>
           </div>

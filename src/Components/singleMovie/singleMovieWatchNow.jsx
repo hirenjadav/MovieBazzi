@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import movieServices from "../../services/moviesServices";
 
 function SingleMovieWatchNow(props) {
   const [streamList, setStreamList] = useState([]);
   const [streamLink, setStreamLink] = useState("");
+  const componentMounted = useRef(true);
 
   const getStreamList = async () => {
     const { data } = await movieServices.getWatchProviderDetails(
@@ -11,15 +12,29 @@ function SingleMovieWatchNow(props) {
       props.movieID
     );
     const { results } = data;
-    const list = results.IN ? [...results.IN.flatrate] : [];
-    const link = results.IN ? results.IN.link : "";
-    setStreamLink(link);
-    setStreamList([...list]);
+
+    if (results.IN && results.IN.flatrate) {
+      const list = [...results.IN.flatrate];
+      setStreamList([...list]);
+    }
+    if (results.IN && results.IN.link) {
+      const link = results.IN.link;
+      setStreamLink(link);
+    }
   };
 
   useEffect(() => {
     getStreamList();
   });
+
+  // useEffect(() => {
+  //   if (componentMounted.current) {
+  //     getStreamList();
+  //   }
+  //   return () => {
+  //     componentMounted.current = false;
+  //   };
+  // });
 
   return (
     <div>

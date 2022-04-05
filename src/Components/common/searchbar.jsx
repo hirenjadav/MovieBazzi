@@ -25,26 +25,26 @@ function SearchBar() {
   };
 
   return (
-    <div class="container">
-      <div class="row height d-flex justify-content-center align-items-center">
-        <div class="col-md-8">
-          <div class="search">
+    <div className="container">
+      <div className="row height d-flex justify-content-center align-items-center">
+        <div className="col-md-8">
+          <div className="search">
             <form onSubmit={handleSearch}>
-              <div class="columns is-gapless">
-                <div class="column">
-                  <i class="fa fa-search"></i>
+              <div className="columns is-gapless">
+                <div className="column">
+                  <i className="fa fa-search"></i>
                   <input
                     type="text"
                     name="searchInput"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Search for your Favourite Movie"
                     value={searchQuery}
                     onChange={handleChange}
-                    autocomplete="off"
+                    autoComplete="off"
                   />
                 </div>
-                <div class="column is-2">
-                  <button type="submit" class="btn btn-primary">
+                <div className="column is-2">
+                  <button type="submit" className="btn btn-primary">
                     Search
                   </button>
                 </div>

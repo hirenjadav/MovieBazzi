@@ -44,13 +44,14 @@
 }
 
 .single-movie-h3 {
+  color: #fff;
   margin: 35px 0 10px 0;
   font-size: 20px;
   font-weight: bolder;
 }
 
 .body-detail2 {
-  padding: 60px 20px 60px 0;
+  padding: 60px 20px 10px 0;
   display: grid;
   grid-template-columns: 25% 60%;
   justify-content: center;
@@ -253,4 +254,28 @@
 
 .recomendation-title {
   margin-bottom: 0 !important;
+}
+
+.single-movie-reviews {
+  margin: 0 100px 50px 100px;
+}
+
+.hr-review-title {
+  color: white;
+  height: 5px !important;
+  opacity: 0.7;
+  border-radius: 10px;
+}
+
+.hr-review-user {
+  color: white;
+  height: 2px !important;
+  opacity: 0.7;
+  border-radius: 10px;
+}
+
+.user-review-photo {
+  height: 80px;
+  width: 85px;
+  margin: 20px 0;
 }

@@ -7,12 +7,22 @@ import movieServices from "../../services/moviesServices";
 
 function SingleMovieGeneral(props) {
   const [cast, setCast] = useState([]);
+  // const componentMounted = useRef(true);
 
   const getCastDetails = async (id) => {
     const { data } = await movieServices.getCastDetails("movie", id);
     const { cast } = data;
     setCast([...cast]);
   };
+
+  // useEffect(() => {
+  //   if (componentMounted.current) {
+  //     getCastDetails(props.details.id);
+  //   }
+  //   return () => {
+  //     componentMounted.current = false;
+  //   };
+  // });
 
   useEffect(() => {
     getCastDetails(props.details.id);

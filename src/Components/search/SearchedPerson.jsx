@@ -10,8 +10,8 @@ function SearchedPerson(props) {
 
   return (
     <React.Fragment>
-      <div class="column is-full search-collection">
-        <p class="has-text-weight-bold has-text-white is-size-3 is-family-sans-serif search-collection-title">
+      <div className="column is-full search-collection">
+        <p className="has-text-weight-bold has-text-white is-size-3 is-family-sans-serif search-collection-title">
           Celebrity
         </p>
         <hr className="search-hr" />

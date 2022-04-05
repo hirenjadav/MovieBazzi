@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Footer from "../common/Footer";
-import Header from "../common/Header";
 import SearchBarWithPhoto from "../common/searchbarwithphoto";
 import "bulma/css/bulma.css";
 import "../css/search.css";
@@ -16,7 +14,12 @@ function Search(props) {
   const getSearchData = async () => {
     const { data } = await movieServices.getSearchQueryDetails(query);
     const { results } = data;
-    setSearchdata([...results]);
+
+    const temp = results.filter((m) => {
+      return m.media_type === "tv" || m.media_type === "movie";
+    });
+
+    setSearchdata([...temp]);
   };
 
   useEffect(() => {
@@ -25,14 +28,12 @@ function Search(props) {
 
   return (
     <React.Fragment>
-      <Header />
       <SearchBarWithPhoto />
       <div className="container">
         <div className="searched-data columns is-multiline p-0 pb-3 last">
           <SearchFilter searchData={searchData} />
         </div>
       </div>
-      <Footer />
     </React.Fragment>
   );
 }

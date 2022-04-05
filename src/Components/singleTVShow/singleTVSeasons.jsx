@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 
 function SingleTVSeasons(props) {
-  const [selectedSeason, setSelectedSeason] = useState();
+  const [selectedSeason, setSelectedSeason] = useState("");
 
   const handleChange = (event) => {
     setSelectedSeason(event.target.value);
@@ -27,15 +27,17 @@ function SingleTVSeasons(props) {
     <React.Fragment>
       <FormControl sx={{ m: 1, minWidth: 120 }}>
         <Select value={selectedSeason} onChange={handleChange} displayEmpty>
-          {props.seasonData.map((s) => {
-            if (s.name !== "Specials") {
+          {props.seasonData
+            .filter((s) => {
+              return s.name !== "Specials";
+            })
+            .map((s) => {
               return (
                 <MenuItem key={s.season_number} value={s.season_number}>
                   {s.name}
                 </MenuItem>
               );
-            }
-          })}
+            })}
         </Select>
       </FormControl>
       <div className="selectedSeason">
@@ -50,29 +52,33 @@ function SingleTVSeasons(props) {
                 <Item>No of Episodes</Item>
               </Grid>
               <Grid item xs={9}>
-                {props.seasonData.map((s) => {
-                  if (s.season_number === selectedSeason) {
+                {props.seasonData
+                  .filter((s) => {
+                    return s.season_number === selectedSeason;
+                  })
+                  .map((s) => {
                     return (
                       <Item key={s.season_number} value={s.season_number}>
                         {s.episode_count}
                       </Item>
                     );
-                  }
-                })}
+                  })}
               </Grid>
               <Grid item xs={3}>
                 <Item>Overview</Item>
               </Grid>
               <Grid item xs={9}>
-                {props.seasonData.map((s) => {
-                  if (s.season_number === selectedSeason) {
+                {props.seasonData
+                  .filter((s) => {
+                    return s.season_number === selectedSeason;
+                  })
+                  .map((s) => {
                     return (
                       <Item key={s.season_number} value={s.season_number}>
                         {s.overview}
                       </Item>
                     );
-                  }
-                })}
+                  })}
               </Grid>
             </Grid>
           </Grid>
