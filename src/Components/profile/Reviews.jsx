@@ -16,16 +16,12 @@ import {
   getAllReviewAsUser,
 } from "../../services/reviewsServices";
 import SingleMovieCardHome from "../home/singleMovieCardHome";
+import Toast from "../common/Toast";
 
 function Reviews(props) {
   const [reviews, setReviews] = useState([]);
   const [open, setOpen] = useState(false);
-  const [deleteReviewID, setDeleteReviewID] = useState();
-
-  const handleClickOpen = (event) => {
-    setDeleteReviewID(event.target.value);
-    setOpen(true);
-  };
+  const [deleteReviewID, setDeleteReviewID] = useState("");
 
   const handleClose = () => {
     setOpen(false);
@@ -42,7 +38,7 @@ function Reviews(props) {
       setReviews([...res.data]);
     } catch (err) {
       if (err.response && err.response.status === 400) {
-        alert(err.response.data);
+        Toast.toastMessage("error", err.response.data);
       }
       console.log("AXIOS ERROR: ", err.response && err.response.data);
     }
@@ -53,8 +49,10 @@ function Reviews(props) {
   });
 
   const handleReviewDelete = async (event) => {
+    let toastID = "";
     try {
       setOpen(false);
+      toastID = Toast.toastLoading();
       let res = "";
       if (props.isAdmin) {
         res = await deleteReviewAsAdmin(deleteReviewID);
@@ -62,11 +60,11 @@ function Reviews(props) {
         res = await deleteReviewAsUser(deleteReviewID);
       }
       if (res.status === 200) {
-        // setOpen(false);
+        Toast.toastUpdate(toastID, "success", "Successfully Deleted!!");
       }
     } catch (err) {
       if (err.response && err.response.status === 400) {
-        alert(err.response.data);
+        Toast.toastUpdate(toastID, "error", err.response.data);
       }
       console.log("AXIOS ERROR: ", err.response && err.response.data);
     }
@@ -95,8 +93,15 @@ function Reviews(props) {
               />
             </div>
             <div className="col-8 my-4">
-              <h4 className="watchlist-h4">{m.userName}</h4>
-              <h6 className="watchlist-h4">{m.mediaName}</h6>
+              {props.isAdmin && (
+                <React.Fragment>
+                  <h4 className="watchlist-h4">{m.userName}</h4>
+                  <h6 className="watchlist-h4">{m.mediaName}</h6>
+                </React.Fragment>
+              )}
+              {!props.isAdmin && (
+                <h4 className="watchlist-h4">{m.mediaName}</h4>
+              )}
               <Rating value={m.rating} max={10} readOnly />
               <br></br>
               <p className="review-p">{m.review}</p>
@@ -121,8 +126,10 @@ function Reviews(props) {
                   )}
                   <button
                     className="btn btn-warning ml-1"
-                    onClick={handleClickOpen}
-                    value={m._id}
+                    onClick={() => {
+                      setDeleteReviewID(m._id);
+                      setOpen(true);
+                    }}
                   >
                     <DeleteIcon />
                   </button>

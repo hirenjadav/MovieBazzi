@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteFromWishlist } from "../../services/userServices";
 import SingleMovieCardHome from "../home/singleMovieCardHome";
+import Toast from "../common/Toast";
 
 function WatchList(props) {
   const [watch, setWatch] = useState();
@@ -13,15 +14,17 @@ function WatchList(props) {
   }, [watchlist]);
 
   const removeFromWatchlist = async (event) => {
+    let toastID = "";
     try {
+      toastID = Toast.toastLoading();
       const res = await deleteFromWishlist(event.target.value);
       console.log("RESPONSE RECEIVED: ", res.data);
       if (res.status === 200) {
-        alert("Succesfully Removed");
+        Toast.toastUpdate(toastID, "success", "Succesfully Removed");
       }
     } catch (err) {
       if (err.response && err.response.status === 400) {
-        alert(err.response.data);
+        Toast.toastUpdate(toastID, "error", err.response.data);
       }
       console.log("AXIOS ERROR: ", err.response && err.response.data);
     }

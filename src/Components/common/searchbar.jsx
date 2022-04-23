@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.min.css";
 import "../css/searchbar.css";
+import Toast from "./Toast";
 
 function SearchBar() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -17,7 +18,7 @@ function SearchBar() {
     event.preventDefault();
 
     if (searchQuery === "") {
-      alert("Please write what you want to search");
+      Toast.toastMessage("success", "Please write what you want to search");
     } else {
       const navigateValue = "/search/" + searchQuery;
       navigate(navigateValue);

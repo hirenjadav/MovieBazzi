@@ -8,6 +8,7 @@ import movieDummy from "../singleMovie/tempMovieDetail.json";
 import tvDummy from "../singleTVShow/tempTVDetail.json";
 import { giveReview } from "../../services/reviewsServices";
 import movieServices from "../../services/moviesServices";
+import Toast from "../common/Toast";
 
 function Review(props) {
   const { id, type } = useParams();
@@ -42,9 +43,11 @@ function Review(props) {
     const { error } = schema.validate(reviewData);
 
     if (error) {
-      alert(error.details[0].message);
+      Toast.toastMessage("error", error.details[0].message);
     } else {
+      let toastID = "";
       try {
+        toastID = Toast.toastLoading();
         const res = await giveReview(
           reviewData.rating,
           reviewData.review,
@@ -55,12 +58,12 @@ function Review(props) {
         );
         console.log("RESPONSE RECEIVED: ", res.data);
         if (res.status === 200) {
-          alert("Review Submited Successfully");
+          Toast.toastUpdate(toastID, "success", "Review Submited Successfully");
           navigate("/" + type + "/" + id);
         }
       } catch (err) {
         if (err.response && err.response.status === 400) {
-          alert(err.response.data);
+          Toast.toastUpdate(toastID, "error", err.response.data);
         }
         console.log("AXIOS ERROR: ", err.response.data);
       }

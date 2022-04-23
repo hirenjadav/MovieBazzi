@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import auth from "../../services/authServices";
 import { addToWishlist } from "../../services/userServices";
+import Toast from "../common/Toast";
 import "../css/singleMovieBody.css";
 
 function SingleTVAsside(props) {
@@ -28,15 +29,17 @@ function SingleTVAsside(props) {
     if (token === null) {
       navigate("/login", { state: { from: location.pathname } });
     } else {
+      let toastID = "";
       try {
+        toastID = Toast.toastLoading();
         const res = await addToWishlist("tv", id + "", name, poster_path);
         console.log("RESPONSE RECEIVED: ", res.data);
         if (res.status === 200) {
-          alert("Added to Watch List");
+          Toast.toastUpdate(toastID, "success", "Added to Watch List");
         }
       } catch (err) {
         if (err.response && err.response.status === 400) {
-          alert(err.response.data);
+          Toast.toastUpdate(toastID, "error", err.response.data);
         }
         console.log("AXIOS ERROR: ", err.response.data);
       }

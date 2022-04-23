@@ -11,6 +11,7 @@ import {
   deleteUserAsAdmin,
   getAllUserAsAdmin,
 } from "../../services/userServices";
+import Toast from "../common/Toast";
 
 function Users(props) {
   const [users, setUsers] = useState([]);
@@ -32,7 +33,7 @@ function Users(props) {
       setUsers([...res.data]);
     } catch (err) {
       if (err.response && err.response.status === 400) {
-        alert(err.response.data);
+        Toast.toastMessage("error", err.response.data);
       }
       console.log("AXIOS ERROR: ", err.response && err.response.data);
     }
@@ -43,14 +44,17 @@ function Users(props) {
   });
 
   const handleUserDelete = async () => {
+    let toastID = "";
     try {
       setOpen(false);
+      toastID = Toast.toastLoading();
       let res = await deleteUserAsAdmin(deleteUserID);
       if (res.status === 200) {
+        Toast.toastUpdate(toastID, "success", "Successfully Deleted!!");
       }
     } catch (err) {
       if (err.response && err.response.status === 400) {
-        alert(err.response.data);
+        Toast.toastUpdate(toastID, "error", err.response.data);
       }
       console.log("AXIOS ERROR: ", err.response && err.response.data);
     }

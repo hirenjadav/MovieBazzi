@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Joi from "joi";
 import "../css/login.css";
 import auth from "../../services/authServices";
+import Toast from "../common/Toast";
 
 function SignIn(props) {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -27,9 +28,10 @@ function SignIn(props) {
     const { error } = schema.validate(loginData);
 
     if (error) {
-      alert(error.details[0].message);
+      Toast.toastMessage("error", error.details[0].message);
     } else {
       try {
+        Toast.toastLoading();
         const res = await auth.signin(loginData);
         console.log("RESPONSE RECEIVED: ", res.data);
         if (res.status === 200) {
@@ -38,7 +40,7 @@ function SignIn(props) {
         }
       } catch (err) {
         if (err.response && err.response.status === 400) {
-          alert(err.response.data);
+          Toast.toastMessage("error", err.response.data);
         }
         console.log("AXIOS ERROR: ", err.response && err.response.data);
       }

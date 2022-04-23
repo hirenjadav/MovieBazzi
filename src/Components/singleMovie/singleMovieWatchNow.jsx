@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import movieServices from "../../services/moviesServices";
 
 function SingleMovieWatchNow(props) {
   const [streamList, setStreamList] = useState([]);
   const [streamLink, setStreamLink] = useState("");
-  const componentMounted = useRef(true);
+  // const componentMounted = useRef(true);
 
   const getStreamList = async () => {
     const { data } = await movieServices.getWatchProviderDetails(
@@ -26,15 +26,6 @@ function SingleMovieWatchNow(props) {
   useEffect(() => {
     getStreamList();
   });
-
-  // useEffect(() => {
-  //   if (componentMounted.current) {
-  //     getStreamList();
-  //   }
-  //   return () => {
-  //     componentMounted.current = false;
-  //   };
-  // });
 
   return (
     <div>

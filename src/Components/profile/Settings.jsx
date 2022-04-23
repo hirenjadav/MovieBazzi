@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { deleteUserAsUser, changePassword } from "../../services/userServices";
+import Toast from "../common/Toast";
 
 function Settings(props) {
   const [changePasswordData, setchangePasswordData] = useState({
@@ -31,7 +32,7 @@ function Settings(props) {
       }
     } catch (err) {
       if (err.response && err.response.status === 400) {
-        alert(err.response.data);
+        Toast.toastMessage("error", err.response.data);
       }
       console.log("AXIOS ERROR: ", err.response && err.response.data);
     }
@@ -71,19 +72,20 @@ function Settings(props) {
     const { error } = schema.validate(changePasswordData);
 
     if (error) {
-      alert(error.details[0].message);
+      Toast.toastMessage("error", error.details[0].message);
     } else {
       const data = {
         old: changePasswordData.old,
         new: changePasswordData.new,
       };
-
+      let toastID = "";
       try {
+        toastID = Toast.toastLoading();
         handleCloseChangePassDialog();
         const res = await changePassword(data);
         console.log("RESPONSE RECEIVED: ", res.data);
         if (res.status === 200) {
-          alert("Password Changed!!");
+          Toast.toastUpdate(toastID, "success", "Password Changed!!");
           setchangePasswordData({
             old: "",
             new: "",
@@ -92,7 +94,7 @@ function Settings(props) {
         }
       } catch (err) {
         if (err.response && err.response.status === 400) {
-          alert(err.response.data);
+          Toast.toastUpdate(toastID, "error", err.response.data);
         }
         console.log("AXIOS ERROR: ", err.response && err.response.data);
       }

@@ -11,7 +11,11 @@ function Header({ user }) {
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container">
           <NavLink className="navbar-brand" to="/">
-            Website
+            <img
+              src="https://i.ibb.co/Lp6zg2f/Logo2-removebg-preview.png"
+              alt="Movie-Bazzi"
+              border="0"
+            />
           </NavLink>
           <button
             className="navbar-toggler"
@@ -41,11 +45,6 @@ function Header({ user }) {
                   TV Shows
                 </NavLink>
               </li>
-              {/* <li className="nav-item">
-                <NavLink className="nav-link" to="/books">
-                  Books
-                </NavLink>
-              </li> */}
             </ul>
           </div>
           {!user && location.pathname !== "/login" && (
@@ -79,14 +78,3 @@ function Header({ user }) {
 }
 
 export default Header;
-
-{
-  /* <div
-                  className="header-profile-name"
-                  onClick={() => {
-                    window.location = "/profile";
-                  }}
-                >
-                  <p>Hi {user.name}</p>
-                </div> */
-}

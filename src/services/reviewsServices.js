@@ -1,8 +1,7 @@
 import axios from "axios";
 import auth from "./authServices";
 
-// const apiEndpoint = "http://localhost:8000/api/reviews/";
-const apiEndpoint = "https://powerful-chamber-67957.herokuapp.com/api/reviews/";
+const apiEndpoint = process.env.REACT_APP_REVIEW_API_ENDPOINT;
 
 const token = auth.getToken();
 

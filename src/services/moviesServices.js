@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api_key = "0914f7c5f3e5e546aaa005b128fda302";
+const api_key = process.env.REACT_APP_API_KEY;
 
 export async function getTrendingMovies() {
   return await axios.get(

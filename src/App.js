@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import jwtDecode from "jwt-decode";
 import Movies from "./Components/movies/movies";
 import Home from "./Components/home/home";
@@ -31,6 +33,17 @@ function App() {
   return (
     <Router>
       <Header user={user} />
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Routes>
         <Route exact path="/" element={<Home user={user} />}></Route>
         <Route exact path="/login" element={<Login />}></Route>

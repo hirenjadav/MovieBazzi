@@ -18,6 +18,7 @@ import {
 } from "../../services/reviewsServices";
 import auth from "../../services/authServices";
 import { MenuItem, FormControl, Select } from "@mui/material";
+import Toast from "../common/Toast";
 
 function SingleMovieReviews(props) {
   const [reviews, setReviews] = useState([]);
@@ -50,7 +51,7 @@ function SingleMovieReviews(props) {
       }
     } catch (err) {
       if (err.response && err.response.status === 400) {
-        alert(err.response.data);
+        Toast.toastMessage("error", err.response.data);
       }
       console.log("AXIOS ERROR: ", err.response && err.response.data);
     }
@@ -64,15 +65,17 @@ function SingleMovieReviews(props) {
     if (token === null) {
       navigate("/login", { state: { from: location.pathname } });
     } else {
+      let toastID = "";
       try {
         handleClose();
+        toastID = Toast.toastLoading();
         const res = await giveReport(event.target.value, reportReason);
         if (res.status === 200) {
-          alert("Successfully Reported");
+          Toast.toastUpdate(toastID, "success", "Successfully Reported");
         }
       } catch (err) {
         if (err.response && err.response.status === 400) {
-          alert(err.response.data);
+          Toast.toastUpdate(toastID, "error", err.response.data);
         }
         console.log("AXIOS ERROR: ", err.response && err.response.data);
       }
@@ -83,14 +86,19 @@ function SingleMovieReviews(props) {
     if (token === null) {
       navigate("/login", { state: { from: location.pathname } });
     } else {
+      let toastID = "";
       try {
+        toastID = Toast.toastLoading();
+
+        console.log("LIke Review id ", event.target.value);
+
         const res = await giveLike(event.target.value);
         if (res.status === 200) {
-          alert("Liked");
+          Toast.toastUpdate(toastID, "success", "Liked");
         }
       } catch (err) {
         if (err.response && err.response.status === 400) {
-          alert(err.response.data);
+          Toast.toastUpdate(toastID, "error", err.response.data);
         }
         console.log("AXIOS ERROR: ", err.response && err.response.data);
       }
@@ -101,14 +109,16 @@ function SingleMovieReviews(props) {
     if (token === null) {
       navigate("/login", { state: { from: location.pathname } });
     } else {
+      let toastID = "";
       try {
+        toastID = Toast.toastLoading();
         const res = await giveDislike(event.target.value);
         if (res.status === 200) {
-          alert("Disliked");
+          Toast.toastUpdate(toastID, "success", "Disliked");
         }
       } catch (err) {
         if (err.response && err.response.status === 400) {
-          alert(err.response.data);
+          Toast.toastUpdate(toastID, "error", err.response.data);
         }
         console.log("AXIOS ERROR: ", err.response && err.response.data);
       }

@@ -1,8 +1,7 @@
 import axios from "axios";
 import auth from "./authServices";
 
-// const apiEndpoint = "http://localhost:8000/api/users/";
-const apiEndpoint = "https://powerful-chamber-67957.herokuapp.com/api/users/";
+const apiEndpoint = process.env.REACT_APP_USER_API_ENDPOINT;
 
 const token = auth.getToken();
 

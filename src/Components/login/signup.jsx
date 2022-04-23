@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Joi from "joi";
 import "../css/login.css";
 import auth from "../../services/authServices";
+import Toast from "../common/Toast";
 
 function SignUp(props) {
   const [registerData, setRegisterData] = useState({
@@ -34,7 +35,7 @@ function SignUp(props) {
     const { error } = schema.validate(registerData);
 
     if (error) {
-      alert(error.details[0].message);
+      Toast.toastMessage("error", error.details[0].message);
     } else {
       const data = {
         name: registerData.name,
@@ -51,7 +52,7 @@ function SignUp(props) {
         }
       } catch (err) {
         if (err.response && err.response.status === 400) {
-          alert(err.response.data);
+          Toast.toastMessage("error", err.response.data);
         }
         console.log("AXIOS ERROR: ", err.response.data);
       }
@@ -116,10 +117,6 @@ function SignUp(props) {
             <input type="submit" className="button" value="Sign Up" />
           </div>
         </form>
-        {/* <div className="hr"></div>
-              <div className="foot-lnk">
-                <label for="tab-1">Log in With Google</label>
-              </div> */}
       </div>
     </React.Fragment>
   );

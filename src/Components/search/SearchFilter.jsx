@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import Select from "react-select";
+// import Select from "react-select";
 import { Switch, FormControlLabel, Typography } from "@mui/material";
-import { genreForSelect, sortingWay } from "./data";
+// import { genreForSelect, sortingWay } from "./data";
 import SearchedMovie from "./SearchedMovie";
 import SearchedTV from "./SearchedTV";
 
 function SearchFilter(props) {
   const [filteredData, setFilteredData] = useState([]);
-  const [selectedGenre, setSelectedGenre] = useState([]);
-  const [sortMethod, setSortMethod] = useState("");
+  // const [selectedGenre, setSelectedGenre] = useState([]);
+  // const [sortMethod, setSortMethod] = useState("");
   const [movieChecked, setMovieChecked] = useState(true);
   const [TVChecked, setTVChecked] = useState(true);
 
@@ -66,10 +66,12 @@ function SearchFilter(props) {
           />
         </div>
       </div>
-      {movieChecked && (
+      {/* {movieChecked && (
         <SearchedMovie searchData={filteredData} sort={sortMethod} />
       )}
-      {TVChecked && <SearchedTV searchData={filteredData} sort={sortMethod} />}
+      {TVChecked && <SearchedTV searchData={filteredData} sort={sortMethod} />} */}
+      {movieChecked && <SearchedMovie searchData={filteredData} />}
+      {TVChecked && <SearchedTV searchData={filteredData} />}
     </React.Fragment>
   );
 }
