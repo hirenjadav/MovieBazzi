@@ -118,12 +118,18 @@ function Reviews(props) {
                   </button>
                 </div>
                 <div className="col-12 mt-2">
-                  {props.isAdmin && (
-                    <button className="btn btn-primary mr-2" disabled>
-                      Reports{" "}
-                      <span className="badge">{m.reportCount.length}</span>
-                    </button>
-                  )}
+                  {props.isAdmin &&
+                    (m.reportCount.length >= 3 ? (
+                      <button className="btn btn-danger mr-2" disabled>
+                        Reports{" "}
+                        <span className="badge">{m.reportCount.length}</span>
+                      </button>
+                    ) : (
+                      <button className="btn btn-primary mr-2" disabled>
+                        Reports{" "}
+                        <span className="badge">{m.reportCount.length}</span>
+                      </button>
+                    ))}
                   <button
                     className="btn btn-warning ml-1"
                     onClick={() => {

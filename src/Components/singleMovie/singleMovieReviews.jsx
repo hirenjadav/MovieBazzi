@@ -90,7 +90,7 @@ function SingleMovieReviews(props) {
       try {
         toastID = Toast.toastLoading();
 
-        console.log("LIke Review id ", event.target.value);
+        console.log("Liked Movie", event.target.value);
 
         const res = await giveLike(event.target.value);
         if (res.status === 200) {
@@ -112,6 +112,9 @@ function SingleMovieReviews(props) {
       let toastID = "";
       try {
         toastID = Toast.toastLoading();
+
+        console.log("Disliked Movie", event.target.value);
+
         const res = await giveDislike(event.target.value);
         if (res.status === 200) {
           Toast.toastUpdate(toastID, "success", "Disliked");

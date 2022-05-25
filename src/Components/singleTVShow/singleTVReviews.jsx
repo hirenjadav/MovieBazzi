@@ -89,6 +89,9 @@ function SingleTVReviews(props) {
       let toastID = "";
       try {
         toastID = Toast.toastLoading();
+
+        console.log("Liked TV", event.target.value);
+
         const res = await giveLike(event.target.value);
         if (res.status === 200) {
           Toast.toastUpdate(toastID, "success", "Liked");
@@ -109,6 +112,9 @@ function SingleTVReviews(props) {
       let toastID = "";
       try {
         toastID = Toast.toastLoading();
+
+        console.log("Disliked TV", event.target.value);
+
         const res = await giveDislike(event.target.value);
         if (res.status === 200) {
           Toast.toastUpdate(toastID, "success", "Disliked");
